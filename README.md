@@ -3,11 +3,3 @@
 # METAR App
 
 This is a METAR App that pilots can use to get latest METAR info for their airport. Student pilots can use it to understand METARs
-
-### Deploying From Your Terminal
-
-You can deploy your new Vue.js project with a single command from your terminal using [Vercel CLI](https://vercel.com/download):
-
-```shell
-$ vercel
-```

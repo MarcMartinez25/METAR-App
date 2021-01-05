@@ -2,9 +2,7 @@
 <template>
 	<v-app>
 		<v-main>
-			<v-container>
-				<MetarInfo />
-			</v-container>
+			<MetarInfo />
 		</v-main>
 	</v-app>
 </template>
