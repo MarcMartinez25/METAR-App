@@ -1,7 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-form ref="form" v-model="valid" lazy-validation
-			>>
+		<v-form ref="form" v-model="valid" lazy-validation>
 			<v-row>
 				<v-col class="mt-4" offset-md="4" cols="3">
 					<v-text-field
@@ -28,9 +27,14 @@
 		<v-row>
 			<v-col>
 				<v-card class="mx-auto my-6" max-width="750">
-					<v-card-title> KHSD </v-card-title>
-					<v-card-subtitle>
-						Current METAR for Sundance Airport
+					<v-card-title v-if="this.icaoCode !== null">
+						{{ this.icaoCode }}
+					</v-card-title>
+					<v-card-title v-if="this.icaoCode === null">
+						Metar information will be displayed below
+					</v-card-title>
+					<v-card-subtitle v-if="this.icaoCode !== null">
+						Current METAR for {{ this.icaoCode }}
 					</v-card-subtitle>
 					<v-divider class="mx-4"></v-divider>
 					<v-card-text>
@@ -65,23 +69,21 @@ export default {
 		valid: false,
 	}),
 
-	created() {
-		this.getMetar();
-	},
+	created() {},
 
 	methods: {
 		getMetar() {
+			let url =
+				"https://api.checkwx.com/metar/" + this.icaoCode + "/decoded";
 			axios
-				.get(
-					"https://api.checkwx.com/metar/KHSD/decoded",
-					this.axiosOptions
-				)
+				.get(url, this.axiosOptions)
 				.then((response) => {
 					let resp = response.data;
 					this.metar = resp.data[0];
 					this.rawMetar = this.metar.raw_text;
+					this.icaoCode = this.metar.icao;
 					// eslint-disable-next-line no-console
-					console.log(this.rawMetar);
+					console.log(this.metar);
 				})
 				.catch((e) => {
 					this.errors.push(e);
