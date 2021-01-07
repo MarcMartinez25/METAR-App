@@ -49,7 +49,7 @@ export default {
 	name: "metar-info",
 
 	data: () => ({
-		rawMetar: "KHSD 051755Z AUTO 16011KT 10SM CLR 11/03 A3007 RMK A01",
+		rawMetar: null,
 		metar: {},
 		icaoCode: null,
 		axiosOptions: {
@@ -65,10 +65,12 @@ export default {
 		valid: false,
 	}),
 
-	created() {},
+	created() {
+		this.getMetar();
+	},
 
 	methods: {
-		getMetar: () => {
+		getMetar() {
 			axios
 				.get(
 					"https://api.checkwx.com/metar/KHSD/decoded",
@@ -79,7 +81,7 @@ export default {
 					this.metar = resp.data[0];
 					this.rawMetar = this.metar.raw_text;
 					// eslint-disable-next-line no-console
-					console.log(this.metar);
+					console.log(this.rawMetar);
 				})
 				.catch((e) => {
 					this.errors.push(e);
